@@ -13,45 +13,51 @@ public class result {
     private LinkedList<resultGame> games;
     private List<playerSPS> players;
 
+    private HashMap<String, Integer> none = new HashMap<>();
+    private HashMap<String, Integer> won = new HashMap<>();
+    private HashMap<String, Integer> loss = new HashMap<>();
+
     public result(List<playerSPS> players) {
         this.players = players;
+        for (playerSPS player : players){
+            none.put(player.getClass().getSimpleName(), 0);
+            won.put(player.getClass().getSimpleName(), 0);
+            loss.put(player.getClass().getSimpleName(), 0);
+        }
+
         this.games = new LinkedList<>();
     }
     public void addGame(resultGame result){
         games.add(result);
+
+        if (result.getResultPlayer1().equals("NONE")){
+            none.replace(result.getPlayer1(), none.get(result.getPlayer1()) + 1);
+            none.replace(result.getPlayer2(), none.get(result.getPlayer2()) + 1);
+        }
+        if (result.getResultPlayer1().equals("WON")){
+            won.replace(result.getPlayer1(), won.get(result.getPlayer1()) + 1);
+            loss.replace(result.getPlayer2(), loss.get(result.getPlayer2()) + 1);
+        }
+        if (result.getResultPlayer1().equals("LOSS")){
+            loss.replace(result.getPlayer1(), loss.get(result.getPlayer1()) + 1);
+            won.replace(result.getPlayer2(), won.get(result.getPlayer2()) + 1);
+        }
+
+
+
     }
 
     public String getMainStatistics(){
         StringBuffer buf = new StringBuffer();
         buf.append("Games total: " + games.size() + "\n");
-        HashMap<String, Integer> none = new HashMap<>();
-        HashMap<String, Integer> won = new HashMap<>();
-        HashMap<String, Integer> loss = new HashMap<>();
+
         for (playerSPS player : players){
-            none.put(player.getClass().getName(), 0);
-            won.put(player.getClass().getName(), 0);
-            loss.put(player.getClass().getName(), 0);
+            buf.append("Statistics for " + player.getClass().getSimpleName() + ":\n");
+            buf.append("\tnones: " + none.get(player.getClass().getSimpleName()) + ":\n");
+            buf.append("\twons " + won.get(player.getClass().getSimpleName()) + ":\n");
+            buf.append("\tlosses " + loss.get(player.getClass().getSimpleName()) + ":\n");
         }
-        for (resultGame gm : games){
-            if (gm.getResultPlayer1().equals("NONE")){
-                none.replace(gm.getPlayer1(), none.get(gm.getPlayer1()) + 1);
-                none.replace(gm.getPlayer2(), none.get(gm.getPlayer2()) + 1);
-            }
-            if (gm.getResultPlayer1().equals("WON")){
-                won.replace(gm.getPlayer1(), won.get(gm.getPlayer1()) + 1);
-                loss.replace(gm.getPlayer2(), loss.get(gm.getPlayer2()) + 1);
-            }
-            if (gm.getResultPlayer1().equals("LOSS")){
-                loss.replace(gm.getPlayer1(), loss.get(gm.getPlayer1()) + 1);
-                won.replace(gm.getPlayer2(), won.get(gm.getPlayer2()) + 1);
-            }
-        }
-        for (playerSPS player : players){
-            buf.append("Statistics for " + players.getClass().getName() + ":\n");
-            buf.append("\tnones: " + none.get(player.getClass().getName()) + ":\n");
-            buf.append("\twons " + won.get(player.getClass().getName()) + ":\n");
-            buf.append("\tlosses " + loss.get(player.getClass().getName()) + ":\n");
-        }
+
         buf.append("\n\nAllGames:");
         for (resultGame game : games)
         {

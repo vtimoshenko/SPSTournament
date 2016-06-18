@@ -32,7 +32,7 @@ public class resultGame {
     }
 
     public String getPlayer1() {
-        return player1.getName();
+        return player1.getSimpleName();
     }
 
     public void setPlayer1(Class player1) {
@@ -40,7 +40,7 @@ public class resultGame {
     }
 
     public String getPlayer2() {
-        return player2.getName();
+        return player2.getSimpleName();
     }
 
     public void setPlayer2(Class player2) {
@@ -96,17 +96,27 @@ public class resultGame {
     }
 
 
-    private String step(int step){
-        Field[] fld = gameSPS.class.getDeclaredFields();
-        for (Field f : fld) {
-            if (f.isAnnotationPresent(SPSStep.class) & f.equals(step))  return f.getName();
+    private String step(int step) {
+        try{
+            Field[] fld = gameSPS.class.getDeclaredFields();
+            for (Field f : fld) {
+                f.setAccessible(true);
+                if (f.isAnnotationPresent(SPSStep.class) && f.getInt(new gameSPS()) == step)  return f.getName();
+            }
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
         }
         return "UNKNOWN";
     }
-    private String result(int res){
-        Field[] fld = gameSPS.class.getDeclaredFields();
-        for (Field f : fld) {
-            if (f.isAnnotationPresent(SPSResult.class) & f.equals(res))  return f.getName();
+    private String result(int res) {
+        try{
+            Field[] fld = gameSPS.class.getDeclaredFields();
+            for (Field f : fld) {
+                f.setAccessible(true);
+                if (f.isAnnotationPresent(SPSResult.class) && f.getInt(new gameSPS())==res)  return f.getName();
+            }
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
         }
         return "UNKNOWN";
     }

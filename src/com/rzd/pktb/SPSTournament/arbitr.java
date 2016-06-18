@@ -3,6 +3,7 @@ package com.rzd.pktb.SPSTournament;
 import com.rzd.pktb.SPSGame.gameSPS;
 import com.rzd.pktb.SPSGame.playerSPS;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -17,8 +18,12 @@ public class arbitr {
 
     public result playAllVsAll(int gameCount) {
         result results = new result(players);
+        LinkedList<playerSPS> end = new LinkedList<>();
+
         for (playerSPS p1 : players){
+            end.add(p1);
             for (playerSPS p2 : players){
+                if (end.contains(p2)) continue;
                 for (int i=0;i<gameCount;i++){
                     int stepP1 = p1.fight();
                     int stepP2 = p2.fight();
