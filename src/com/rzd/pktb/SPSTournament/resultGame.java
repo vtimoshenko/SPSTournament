@@ -8,6 +8,7 @@ import java.lang.reflect.Field;
 import java.util.Date;
 
 /**
+ * Полное описание результата одного кона
  * Created by SimpleUser on 18.06.2016.
  */
 public class resultGame {
@@ -95,7 +96,11 @@ public class resultGame {
         this.identifier = identifier;
     }
 
-
+    /**
+     * Определение имени шага по значению через аннотации О_о
+     * @param step  числовое значение хода
+     * @return строковое описание хода
+     */
     private String step(int step) {
         try{
             Field[] fld = gameSPS.class.getDeclaredFields();
@@ -108,6 +113,12 @@ public class resultGame {
         }
         return "UNKNOWN";
     }
+
+    /**
+     * Определение результата игры из его цифрового описания О_о
+     * @param res числовое значение
+     * @return строковое описание
+     */
     private String result(int res) {
         try{
             Field[] fld = gameSPS.class.getDeclaredFields();

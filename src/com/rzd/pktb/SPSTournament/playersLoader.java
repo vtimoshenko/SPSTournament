@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
+ * Загрузчик классов игроков в камень/ножницы/бумага
  * Created by SimpleUser on 18.06.2016.
  */
 public class playersLoader {
